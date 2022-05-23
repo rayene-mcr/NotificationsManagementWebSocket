@@ -1,4 +1,5 @@
 package be.codesandnotes.swns;
+import java.util.*;
 
 public class Notification {
 
@@ -9,6 +10,10 @@ public class Notification {
 
     public Notification(String text , int count) {
         this.text = text;
+        this.count = count;
+
+    }
+    public Notification(int count) {
         this.count = count;
     }
     private int count;

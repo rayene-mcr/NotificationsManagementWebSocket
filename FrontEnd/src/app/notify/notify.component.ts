@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {NbComponentSize} from "@nebular/theme";
+import {NbComponentSize, NbMenuService} from "@nebular/theme";
 import * as SockJS from 'sockjs-client';
 import * as StompJs from '@stomp/stompjs';
+
 
 
 @Component({
@@ -9,14 +10,28 @@ import * as StompJs from '@stomp/stompjs';
   templateUrl: './notify.component.html',
   styleUrls: ['./notify.component.css']
 })
-export class NotifyComponent {
+export class NotifyComponent implements OnInit{
   content: any = [{}];
+  emptyTable: any = [{}];
   items = [{ title: 'Profile' }, { title: 'Log out' }];
   sizes: NbComponentSize[] = [ 'tiny', 'small', 'medium', 'large', 'giant' ];
 
   public notifications: any;
   public body: any;
   private client!: StompJs.Client;
+  public refreshedNotifs: any;
+  bellClicked = false;
+  texte: any;
+  display = false;
+
+
+
+
+  constructor(private menuService: NbMenuService) { }
+
+  ngOnInit() {
+    this.refreshedNotifs=localStorage.getItem("count");
+  }
 
   connectClicked() {
     if (!this.client || this.client.connected) {
@@ -54,13 +69,18 @@ export class NotifyComponent {
       this.client.publish({destination: '/swns/trigger'});
       console.log("Published and ready for subscription")
       this.client.subscribe('/user/notification/item', (response) => {
-        const text: string = JSON.parse(response.body).text;
-        const count: number = JSON.parse(response.body).count;
+        const text: Array<string> = JSON.parse(response.body).text;
+        console.log("This is the text from backend",text);
+        this.content = ({title: text});
+        console.log(this.content);
+        const count: any = JSON.parse(response.body).count;
         this.notifications = count;
-        this.content.push({title:text});
-        console.log(this.content)
-        this.body = text;
+        JSON.stringify(localStorage.setItem("count",count));
+        this.refreshedNotifs = localStorage.getItem("count");
+        //this.body = text;
       });
+      //this.content.push({title:this.texte});
+      //console.log(this.content);
     }
   }
 
@@ -69,5 +89,28 @@ export class NotifyComponent {
       this.client.publish({destination: '/swns/stop'});
     }
   }
+  setToZero(){
+    if (this.client && this.client.connected) {
+      this.client.publish({destination: '/swns/setzero'});
+      console.log("Setting to zero..")
+      this.client.subscribe('/user/notification/item', (response) => {
+        const count: any = JSON.parse(response.body).count;
+        localStorage.setItem("count",count);
+        this.refreshedNotifs = localStorage.getItem("count");
+        this.bellClicked = true
+        if (this.bellClicked == true){
+          //this.content = this.emptyTable;
+          //console.log("table cleared");
+        }
+        this.notifications = count;
+      });
+    }
+  }
+
+  showContents(): void{
+    this.display == true;
+    console.log("aaaaaa")
+  }
+
 
 }

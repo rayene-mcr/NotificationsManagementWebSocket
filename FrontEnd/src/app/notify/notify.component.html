@@ -2,17 +2,16 @@
   <nb-layout-header fixed>Company Name</nb-layout-header>
 
   <nb-sidebar>Sidebar Content</nb-sidebar>
-
   <nb-layout-column>
-    Page Content <button nbButton>Hello World</button>
+
   </nb-layout-column>
   <nb-layout-column>
-    <div style="height: 15px !important;width: 15px!important;background-color: red;border-radius: 50%;margin-left: 50px;margin-top: 10px">
-      <div style="color: white;margin-left: 3px;margin-top: -3px;position: absolute">{{notifications}}</div>
+    <div style="height: 15px !important;width: 15px!important;background-color: red;border-radius: 50%;margin-left: 50px;margin-top: 10px"  [hidden]="refreshedNotifs == 0">
+      <div style="color: white;margin-left: 3px;margin-top: -3px;position: absolute">{{refreshedNotifs}}</div>
     </div>
     <nb-actions size="medium">
       <nb-action icon="bell-outline"   badgePosition="top right"
-                 badgeStatus="danger" [nbContextMenu]="content"></nb-action>
+                 badgeStatus="danger" [nbContextMenu]="content" (click)="setToZero()"></nb-action>
     </nb-actions>
 
   </nb-layout-column>
@@ -29,4 +28,5 @@
     <button nbButton (click)="disconnectClicked()">Disconnect</button>
   </nb-layout-column>
 </nb-layout>
+
 <!--<router-outlet></router-outlet>-->

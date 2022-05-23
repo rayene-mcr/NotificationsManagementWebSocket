@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 import {
   NbActionsModule,
   NbAlertModule,
-  NbButtonModule, NbContextMenuModule,
+  NbButtonModule, NbCardModule, NbContextMenuModule, NbIconModule,
   NbLayoutModule,
-  NbMenuModule,
+  NbMenuModule, NbSelectModule,
   NbSidebarModule,
   NbThemeModule
 } from '@nebular/theme';
@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {NbEvaIconsModule} from "@nebular/eva-icons";
 import { NotifyComponent } from './notify/notify.component';
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 
 
@@ -36,7 +37,11 @@ import { NotifyComponent } from './notify/notify.component';
     NbAlertModule,
     NbActionsModule,
     NbEvaIconsModule,
-    NbContextMenuModule
+    NbContextMenuModule,
+    OverlayPanelModule,
+    NbIconModule,
+    NbCardModule,
+    NbSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -27,4 +27,7 @@ public class NotificationsController {
 
     @MessageMapping("/trigger")
     public void trigger() {dispatcher.dispatch();}
+
+    @MessageMapping("/setzero")
+    public void setzero() {dispatcher.setToZero();}
 }
